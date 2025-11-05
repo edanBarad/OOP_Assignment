@@ -76,12 +76,10 @@ public class GeometryTester {
             System.out.println("Test isIntersecting failed (1).");
             mistakes = true;
         }
-        System.out.println("TEST 1 PASSED!");
         if (l1.isIntersecting(new Line(0, 0, 1, 1))) {
             System.out.println("Test isIntersecting failed (2).");
             mistakes = true;
         }
-        System.out.println("TEST 2 PASSED!");
         Point intersectL1L2 = l1.intersectionWith(l2);
         if (!l1.middle().equals(intersectL1L2)) {
             System.out.println("Test intersectionWith middle failed.");
