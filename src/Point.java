@@ -1,6 +1,5 @@
 public class Point {
-    private double x;
-    private double y;
+    private double x, y;
     // constructor
     public Point(double x, double y) {
         this.x = x;
@@ -23,5 +22,13 @@ public class Point {
     }
     public double getY() {
         return this.y;
+    }
+
+    //Setters
+    public void setX(double x){
+        this.x = x;
+    }
+    public void setY(double y){
+        this.y = y;
     }
 }
