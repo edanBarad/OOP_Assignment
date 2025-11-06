@@ -5,9 +5,19 @@ import biuoop.Sleeper;
 public class BouncingBallAnimation {
 
     static private void drawAnimation(Point start, double dx, double dy) {
-        GUI gui = new GUI("title",200,200);
+        GUI gui = new GUI("Bouncing Ball Animation",200,200);
         Sleeper sleeper = new Sleeper();
         Ball ball = new Ball(new Point(start.getX(), start.getY()), 30, java.awt.Color.BLACK);
+        if (ball.getX() - ball.getSize() < 0){
+            ball.setX(ball.getSize());
+        }else if (ball.getX() + ball.getSize() > 200){
+            ball.setX(200 - ball.getSize());
+        }
+        if (ball.getY() - ball.getSize() < 0){
+            ball.setY(ball.getSize());
+        }else if (ball.getY() + ball.getSize() > 200){
+            ball.setY(200 - ball.getSize());
+        }
         ball.setVelocity(dx, dy);
         while (true) {
             ball.moveOneStep();

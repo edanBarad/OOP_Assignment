@@ -53,15 +53,13 @@ public class Ball {
     }
 
     public void moveOneStep() {
-        if (this.center.getX()+this.r > 200){
-            this.velocity.setDx(this.velocity.getDx()*-1);
-        } else if (this.center.getX()-this.r < 0) {
-            this.velocity.setDx(this.velocity.getDx()*-1);
+        double nextX = this.center.getX() + this.velocity.getDx();
+        double nextY = this.center.getY() + this.velocity.getDy();
+        if (nextX + this.r > 200 || nextX - this.r < 0) {
+            this.velocity.setDx(-this.velocity.getDx());
         }
-        if (this.center.getY()+this.r > 200){
-            this.velocity.setDy(this.velocity.getDy()*-1);
-        } else if (this.center.getY()-this.r < 0) {
-            this.velocity.setDy(this.velocity.getDy()*-1);
+        if (nextY + this.r > 200 || nextY - this.r < 0) {
+            this.velocity.setDy(-this.velocity.getDy());
         }
         this.center = this.getVelocity().applyToPoint(this.center);
     }
