@@ -52,14 +52,15 @@ public class Ball {
         return this.velocity;
     }
 
-    public void moveOneStep() {
+    //Assuming the screen is a square
+    public void moveOneStep(int screenSize) {
         //Calculate next position
         double nextX = this.center.getX() + this.velocity.getDx();
         double nextY = this.center.getY() + this.velocity.getDy();
 
         //Check sides
-        if (nextX + this.r > 200) {             //Right wall
-            this.center.setX(200 - this.r);      //Right wall fix
+        if (nextX + this.r > screenSize) {             //Right wall
+            this.center.setX(screenSize - this.r);      //Right wall fix
             this.velocity.setDx(-this.velocity.getDx());
         } else if (nextX - this.r < 0) {        //Left wall
             this.center.setX(this.r);            //Left wall fix
@@ -69,8 +70,8 @@ public class Ball {
         }
 
         //Check top/bottom
-        if (nextY + this.r > 200) {             //Bottom wall
-            this.center.setY(200 - this.r);      //Bottom wall fix
+        if (nextY + this.r > screenSize) {             //Bottom wall
+            this.center.setY(screenSize - this.r);      //Bottom wall fix
             this.velocity.setDy(-this.velocity.getDy());
         } else if (nextY - this.r < 0) {        //Top wall
             this.center.setY(this.r);            //Top wall fix

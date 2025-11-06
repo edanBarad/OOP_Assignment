@@ -20,7 +20,7 @@ public class BouncingBallAnimation {
         }
         ball.setVelocity(dx, dy);
         while (true) {
-            ball.moveOneStep();
+            ball.moveOneStep(200);
             DrawSurface d = gui.getDrawSurface();
             ball.drawOn(d);
             gui.show(d);
