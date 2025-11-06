@@ -7,6 +7,14 @@ public class Velocity {
         this.dy = dy;
     }
 
+    public static Velocity fromAngleAndSpeed(double angle, double speed) {
+        double radians = Math.toRadians(angle);
+        double dx = speed * Math.sin(radians);  // calculate from angle and speed
+        double dy = -(speed * Math.cos(radians));  // calculate from angle and speed - Minus because GUI
+        return new Velocity(dx, dy);  // use existing constructor
+    }
+
+
     public double getDx() {
         return dx;
     }

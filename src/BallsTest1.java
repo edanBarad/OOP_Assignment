@@ -19,7 +19,7 @@ public class BallsTest1 {
         }else if (ball.getY() + ball.getSize() > 200){
             ball.setY(200 - ball.getSize());
         }
-        ball.setVelocity(dx, dy);
+        ball.setVelocity(Velocity.fromAngleAndSpeed(13, 9));
         while (true) {
             ball.moveOneStep();
             DrawSurface d = gui.getDrawSurface();
