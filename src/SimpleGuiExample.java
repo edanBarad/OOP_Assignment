@@ -40,8 +40,6 @@ public class SimpleGuiExample {
         gui.show(d);
     }
 
-    //int r = 5*(rand.nextInt(4) + 1); // get integer in 5,10,15,20
-    //d.fillCircle(x,y,r);
     public static void main(String[] args) {
         SimpleGuiExample example = new SimpleGuiExample();
         example.drawRandomCircles();
