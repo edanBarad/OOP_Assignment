@@ -12,6 +12,8 @@ public class MultipleFramesBouncingBallsAnimation {
         Sleeper sleeper = new Sleeper();
         Line r1 = new Line(50 , 50 , 500, 500);
         Line r2 = new Line(450 , 450 , 600, 600);
+        int r1Size = (int)(r1.end().getX() - r1.start().getX());
+        int r2Size = (int)(r2.end().getX() - r2.start().getX());
         //First we'll place all balls in thier frames
 
         for (int i = 0; i < balls.length; i++){
@@ -26,9 +28,9 @@ public class MultipleFramesBouncingBallsAnimation {
             DrawSurface d = gui.getDrawSurface();
 
             d.setColor(Color.GRAY);
-            d.fillRectangle((int)r1.start().getX(), (int)r1.start().getY(),(int)r1.end().getX(),(int)r1.end().getY());
+            d.fillRectangle((int)r1.start().getX(), (int)r1.start().getY(), r1Size, r1Size);
             d.setColor(Color.YELLOW);
-            d.fillRectangle((int)r2.start().getX(), (int)r2.start().getY(),(int)r2.end().getX(),(int)r2.end().getY());
+            d.fillRectangle((int)r2.start().getX(), (int)r2.start().getY(), r2Size, r2Size);
 
             for (int i = 0; i < balls.length; i++){
                 if (i < balls.length/2){
