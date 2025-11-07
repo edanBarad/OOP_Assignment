@@ -10,16 +10,15 @@ public class MultipleFramesBouncingBallsAnimation {
     static private void drawBalls(Ball[] balls) {
         GUI gui = new GUI("Multi Frames Bouncing Balls Animation",600,600);
         Sleeper sleeper = new Sleeper();
-        for (Ball ball: balls) {
-            if (ball.getX() - ball.getSize() < 0) {
-                ball.setX(ball.getSize());
-            } else if (ball.getX() + ball.getSize() > 600) {
-                ball.setX(600 - ball.getSize());
-            }
-            if (ball.getY() - ball.getSize() < 0) {
-                ball.setY(ball.getSize());
-            } else if (ball.getY() + ball.getSize() > 600) {
-                ball.setY(600 - ball.getSize());
+        Line r1 = new Line(50 , 50 , 500, 500);
+        Line r2 = new Line(450 , 450 , 600, 600);
+        //First we'll place all balls in thier frames
+
+        for (int i = 0; i < balls.length; i++){
+            if (i < balls.length/2){
+                balls[i].startBallInFrame(r1);
+            }else {
+                balls[i].startBallInFrame(r2);
             }
         }
 
@@ -27,13 +26,17 @@ public class MultipleFramesBouncingBallsAnimation {
             DrawSurface d = gui.getDrawSurface();
 
             d.setColor(Color.GRAY);
-            d.fillRectangle(50, 50, 450, 450);
+            d.fillRectangle((int)r1.start().getX(), (int)r1.start().getY(),(int)r1.end().getX(),(int)r1.end().getY());
             d.setColor(Color.YELLOW);
-            d.fillRectangle(450, 450, 150, 150);
+            d.fillRectangle((int)r2.start().getX(), (int)r2.start().getY(),(int)r2.end().getX(),(int)r2.end().getY());
 
-            for (Ball ball : balls) {
-                ball.moveOneStep(600);
-                ball.drawOn(d);
+            for (int i = 0; i < balls.length; i++){
+                if (i < balls.length/2){
+                    balls[i].moveOneStepInFrame(r1);
+                }else {
+                    balls[i].moveOneStepInFrame(r2);
+                }
+                balls[i].drawOn(d);
             }
             gui.show(d);
             sleeper.sleepFor(50);

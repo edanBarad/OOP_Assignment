@@ -81,6 +81,51 @@ public class Ball {
         }
     }
 
+    public void startBallInFrame(Line diagonal){
+        //Check sides
+        if (this.getX() + this.getSize() > diagonal.end().getX()) {             //Right wall
+            this.setX((int)(diagonal.end().getX() - this.r));      //Right wall fix
+        } else if (this.getX() - this.getSize() < diagonal.start().getX()) {        //Left wall
+            this.setX((int)(diagonal.start().getX() + this.r));            //Left wall fix
+        }
+
+        //Check top/bottom
+        if (this.getY() + this.getSize() > diagonal.end().getY()) {             //Bottom wall
+            this.setY(((int)diagonal.end().getY() - this.r));      //Bottom wall fix
+        } else if (this.getY() - this.getSize() < diagonal.start().getY()) {        //Top wall
+            this.setY(((int)diagonal.start().getY() + this.r));            //Top wall fix
+        }
+    }
+
+    //Assuming the screen is a square
+    public void moveOneStepInFrame(Line diagonal) {
+        //Calculate next position
+        double nextX = this.center.getX() + this.velocity.getDx();
+        double nextY = this.center.getY() + this.velocity.getDy();
+
+        //Check sides
+        if (nextX + this.r > diagonal.end().getX()) {             //Right wall
+            this.center.setX(diagonal.end().getX() - this.r);      //Right wall fix
+            this.velocity.setDx(-this.velocity.getDx());
+        } else if (nextX - this.r < diagonal.start().getX()) {        //Left wall
+            this.center.setX(diagonal.start().getX() + this.r);            //Left wall fix
+            this.velocity.setDx(-this.velocity.getDx());
+        } else {
+            this.center.setX(nextX);             //No change
+        }
+
+        //Check top/bottom
+        if (nextY + this.r > diagonal.end().getY()) {             //Bottom wall
+            this.center.setY(diagonal.end().getY() - this.r);      //Bottom wall fix
+            this.velocity.setDy(-this.velocity.getDy());
+        } else if (nextY - this.r < diagonal.start().getY()) {        //Top wall
+            this.center.setY(diagonal.start().getY() + this.r);            //Top wall fix
+            this.velocity.setDy(-this.velocity.getDy());
+        } else {
+            this.center.setY(nextY);
+        }
+    }
+
 
 
 }
