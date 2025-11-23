@@ -75,10 +75,28 @@ public class Line {
     // Returns the intersection point if the lines intersect,
     // and null otherwise.
     public Point intersectionWith(Line other) {
+        if (this.start.equals(other.start) || this.start.equals(other.end)) return this.start;
+        else if (this.end.equals(other.start) || this.end.equals(other.end)) return this.end;
+        if (this.slope == other.getSlope()) {   //Parallel lines
+            return null;
+        }
         double x, y;
-        //Due to calculations on tablet
-        x = (this.slope*this.start.getX() - this.start.getY() - other.getSlope()*other.start().getX() + other.start.getY()) / (this.slope - other.getSlope());
-        y = this.slope*(x-this.start.getX()) + this.start.getY();
+        //Check vertical lines
+        if (this.slope == Double.POSITIVE_INFINITY) {
+            // This line is vertical, x is fixed
+            x = this.start.getX();
+            // Calculate y using the other line's equation
+            y = other.getSlope() * (x - other.start().getX()) + other.start().getY();
+        } else if (other.getSlope() == Double.POSITIVE_INFINITY) {
+            // Other line is vertical, x is fixed
+            x = other.start().getX();
+            // Calculate y using this line's equation
+            y = this.slope * (x - this.start.getX()) + this.start.getY();
+        } else {
+            // Neither line is vertical, use standard formula(Shown on tablet)
+            x = (this.slope*this.start.getX() - this.start.getY() - other.getSlope()*other.start().getX() + other.start.getY()) / (this.slope - other.getSlope());
+            y = this.slope*(x-this.start.getX()) + this.start.getY();
+        }
         Point point = new Point(x, y);
         if (this.isOnLine(point) && other.isOnLine(point)) return point;
         else return null;
@@ -96,14 +114,16 @@ public class Line {
 
     //This function will return if a given point is on the line using the formula (y-y1)=m(x-x1)
     private boolean isOnLine(Point point){
+        final double EPSILON = 0.000000001;
         if (this.slope == Double.POSITIVE_INFINITY){
-            return (point.getX() == this.start.getX() && point.distance(this.middle()) <= this.start.distance(this.middle()));
-        }else if (this.slope == 0.0){
-            return (point.getY() == this.start.getY() && point.distance(this.middle()) <= this.start.distance(this.middle()));
+            return (Math.abs(point.getX() - this.start.getX()) < EPSILON &&
+                    point.distance(this.middle()) <= this.start.distance(this.middle()) + EPSILON);
+        } else if (this.slope == 0.0){
+            return (Math.abs(point.getY() - this.start.getY()) < EPSILON &&
+                    point.distance(this.middle()) <= this.start.distance(this.middle()) + EPSILON);
         }
-        final double EPSILON = 0.000000001; //
-        if (Math.abs((point.getY()-this.start.getY()) - (this.slope*(point.getX()-this.start.getX()))) < EPSILON){   //If satisfies equation
-            return point.distance(this.middle()) <= this.start.distance(this.middle());         //Check if between start and end
+        if (Math.abs((point.getY()-this.start.getY()) - (this.slope*(point.getX()-this.start.getX()))) < EPSILON){
+            return point.distance(this.middle()) <= this.start.distance(this.middle()) + EPSILON;
         }
         return false;
     }
@@ -115,16 +135,16 @@ public class Line {
         Point closestIntersect = null;
         double minDistance = Double.POSITIVE_INFINITY;
         Line[] walls = {
-                // Left wall (top to bottom)
+                //Left wall
                 new Line(rect.getUpperLeft(),
                         new Point(rect.getUpperLeft().getX(), rect.getUpperLeft().getY() + rect.getHeight())),
-                // Top wall (left to right)
+                //Top
                 new Line(rect.getUpperLeft(),
                         new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY())),
-                // Right wall (top to bottom)
+                //Right wall
                 new Line(new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY()),
                         new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY() + rect.getHeight())),
-                // Bottom wall (left to right)
+                //Bottom
                 new Line(new Point(rect.getUpperLeft().getX(), rect.getUpperLeft().getY() + rect.getHeight()),
                         new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY() + rect.getHeight()))
         };
