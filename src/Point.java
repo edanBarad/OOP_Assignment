@@ -13,7 +13,9 @@ public class Point {
 
     // equals -- return true is the points are equal, false otherwise
     public boolean equals(Point other) {
-        return (this.x == other.getX()) && (this.y == other.getY());
+        final double EPSILON = 0.0001;
+        return Math.abs(this.x - other.getX()) < EPSILON &&
+                Math.abs(this.y - other.getY()) < EPSILON;
     }
 
     // Return the x and y values of this point

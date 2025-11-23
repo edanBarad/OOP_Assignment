@@ -134,29 +134,12 @@ public class Line {
     public Point closestIntersectionToStartOfLine(Rectangle rect) {
         Point closestIntersect = null;
         double minDistance = Double.POSITIVE_INFINITY;
-        Line[] walls = {
-                //Left wall
-                new Line(rect.getUpperLeft(),
-                        new Point(rect.getUpperLeft().getX(), rect.getUpperLeft().getY() + rect.getHeight())),
-                //Top
-                new Line(rect.getUpperLeft(),
-                        new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY())),
-                //Right wall
-                new Line(new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY()),
-                        new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY() + rect.getHeight())),
-                //Bottom
-                new Line(new Point(rect.getUpperLeft().getX(), rect.getUpperLeft().getY() + rect.getHeight()),
-                        new Point(rect.getUpperLeft().getX() + rect.getWidth(), rect.getUpperLeft().getY() + rect.getHeight()))
-        };
-        // Check each wall for intersections
-        for (Line wall : walls) {
-            Point intersect = this.intersectionWith(wall);
-            if (intersect != null) {
-                double distance = this.start.distance(intersect);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestIntersect = intersect;
-                }
+        java.util.List<Point> intersections = rect.intersectionPoints(this);
+        for (Point intersection: intersections){
+            double distance = this.start.distance(intersection);
+            if (distance < minDistance){
+                closestIntersect = intersection;
+                minDistance = distance;
             }
         }
         return closestIntersect;
