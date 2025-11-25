@@ -113,7 +113,7 @@ public class Line {
     }
 
     //This function will return if a given point is on the line using the formula (y-y1)=m(x-x1)
-    private boolean isOnLine(Point point){
+    public boolean isOnLine(Point point){
         final double EPSILON = 0.000000001;
         if (this.slope == Double.POSITIVE_INFINITY){
             return (Math.abs(point.getX() - this.start.getX()) < EPSILON &&
