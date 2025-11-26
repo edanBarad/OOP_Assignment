@@ -1,7 +1,7 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
 
-public class Ball {
+public class Ball implements Sprite{
     private Point center;
     private int r;
     private java.awt.Color color;
@@ -61,46 +61,59 @@ public class Ball {
         return this.velocity;
     }
 
+    @Override
     //Draw the ball on the given DrawSurface
     public void drawOn(DrawSurface surface){
         surface.setColor(this.color);
         surface.fillCircle(this.getX(),this.getY(),this.r);
     }
 
-    //Assuming the screen is a square
+    @Override
+    public void timePassed() {
+        moveOneStep(400); // temporary until GameLevel provides the frame
+    }
+
+    //Assuming the screen is a square(screenSize*screenSize)
+
     public void moveOneStep(int screenSize) {
         //Calculate next position
         double nextX = this.center.getX() + this.velocity.getDx();
         double nextY = this.center.getY() + this.velocity.getDy();
-
         //Check sides
         if (nextX + this.r > screenSize) {             //Right wall
-            this.center.setX(screenSize - this.r);      //Right wall fix
+            this.center.setX(screenSize - this.r);     //Right wall fix
             this.velocity.setDx(-this.velocity.getDx());
-        } else if (nextX - this.r < 0) {        //Left wall
-            this.center.setX(this.r);            //Left wall fix
+        } else if (nextX - this.r < 0) {               //Left wall
+            this.center.setX(this.r);                  //Left wall fix
             this.velocity.setDx(-this.velocity.getDx());
         } else {
-            this.center.setX(nextX);             //No change
+            this.center.setX(nextX);                   //No change
         }
-
         //Check top/bottom
         if (nextY + this.r > screenSize) {             //Bottom wall
-            this.center.setY(screenSize - this.r);      //Bottom wall fix
+            this.center.setY(screenSize - this.r);     //Bottom wall fix
             this.velocity.setDy(-this.velocity.getDy());
-        } else if (nextY - this.r < 0) {        //Top wall
-            this.center.setY(this.r);            //Top wall fix
+        } else if (nextY - this.r < 0) {               //Top wall
+            this.center.setY(this.r);                  //Top wall fix
             this.velocity.setDy(-this.velocity.getDy());
         } else {
-            this.center.setY(nextY);
+            this.center.setY(nextY);                   //No change
         }
-
-        //Check for collisions
-        CollisionInfo info = this.gameEnvironment.getClosestCollision(new Line(this.center, this.velocity.applyToPoint(this.center)));
-        if (info != null){  //Collision found
+        //Check for collisions (edge-aware)
+        //Build a line from previous center to next edge position
+        double edgeNextX = this.center.getX() + Math.signum(this.velocity.getDx()) * this.r;
+        double edgeNextY = this.center.getY() + Math.signum(this.velocity.getDy()) * this.r;
+        Line path = new Line(
+                new Point(nextX - this.velocity.getDx(), nextY - this.velocity.getDy()),  // previous center
+                new Point(edgeNextX, edgeNextY)                                                 // next edge
+        );
+        CollisionInfo info = this.gameEnvironment.getClosestCollision(path);
+        if (info != null) {  //Collision found
             this.velocity = info.collisionObject().hit(info.collisionPoint(), this.velocity);
         }
     }
+
+
 
     public void startBallInFrame(Line diagonal){
         //Check sides

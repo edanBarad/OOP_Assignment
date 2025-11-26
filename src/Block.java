@@ -1,6 +1,8 @@
+import biuoop.DrawSurface;
+
 import java.util.List;
 
-public class Block implements Collidable{
+public class Block implements Collidable, Sprite{
     private Rectangle rectangle;
 
     public Block(Rectangle rectangle){
@@ -34,5 +36,16 @@ public class Block implements Collidable{
     }
     public void setRectangle(Rectangle rectangle){
         this.rectangle = rectangle;
+    }
+
+    @Override
+    public void drawOn(DrawSurface d) {
+        d.fillRectangle((int)this.rectangle.getUpperLeft().getX(),(int)this.rectangle.getUpperLeft().getY(),
+                        (int)this.rectangle.getWidth(), (int)this.rectangle.getHeight());
+    }
+
+    @Override
+    public void timePassed() {
+
     }
 }
