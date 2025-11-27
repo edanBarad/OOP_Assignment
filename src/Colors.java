@@ -37,4 +37,8 @@ public enum Colors {
         Colors[] values = values();
         return values[new Random().nextInt(values.length)].color;
     }
+
+    public static Colors[] getColors(){
+        return values();
+    }
 }

@@ -21,7 +21,7 @@ public class BallsTest1 {
         }
         ball.setVelocity(Velocity.fromAngleAndSpeed(13, 9));
         while (true) {
-            ball.moveOneStep(200);
+            ball.moveOneStep(200, 200);
             DrawSurface d = gui.getDrawSurface();
             ball.drawOn(d);
             gui.show(d);

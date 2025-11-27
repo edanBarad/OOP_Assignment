@@ -1,29 +1,98 @@
 import biuoop.DrawSurface;
+import biuoop.GUI;
+import biuoop.Sleeper;
+
+import java.awt.*;
 
 public class Game {
+
+    private static Game instance = null;
+
+    private GUI gui;
     private SpriteCollection sprites;
     private GameEnvironment environment;
 
-    public Game(){
+    private Game() {
+        this.gui = new GUI("Arkanoid", 800, 600);
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
     }
-    public Game(SpriteCollection sprites, GameEnvironment environment){
-        this.sprites = sprites;
-        this.environment = environment;
+
+    public static Game getInstance() {
+        if (instance == null) {
+            instance = new Game();
+        }
+        return instance;
     }
 
-    public void addCollidable(Collidable c){
+    // Your existing methods:
+    public void addCollidable(Collidable c) {
         this.environment.addCollidable(c);
     }
-    public void addSprite(Sprite s){
+
+    public void addSprite(Sprite s) {
         this.sprites.addSprite(s);
     }
 
-    // Initialize a new game: create the Blocks and Ball (and Paddle)
-    // and add them to the game.
-    public void initialize();
+    public void initialize() {
+        Ball ball = new Ball(new Point(400, 300), 5, Colors.RED.getColor());
+        ball.setVelocity(new Velocity(2, 3));
+        ball.setGameEnvironment(this.environment);
+        this.addSprite(ball);
 
-    // Run the game -- start the animation loop.
-    public void run();
+        // NOTE: Use Colors.values() instead of Colors.getColors() if the latter causes compilation error
+        Colors[] colors = Colors.values();
+
+        int startX = 250; // Starting X position for the first row
+        int startY = 100; // Starting Y position for the top row
+        int blockWidth = 50;
+        int blockHeight = 20;
+        int numRows = 6;
+        int rowGap = 5;    // Gap between rows
+        int columnGap = 5; // Gap between blocks in a row
+
+        for (int i = 0; i < numRows; i++) {
+            // Calculate Y position: startY + (row index * (height + gap))
+            int currentY = startY + (i * (blockHeight + rowGap));
+
+            // Each row starts slightly later than the one above it
+            int currentX = startX + (i * (blockWidth / 2));
+
+            // Number of blocks decreases by one for each subsequent row
+            int numBlocksInRow = 10 - i;
+
+            for (int j = 0; j < numBlocksInRow; j++) {
+                // Calculate X position: currentX + (block index * (width + gap))
+                int blockXPos = currentX + j * (blockWidth + columnGap); // <-- MODIFIED LINE
+
+                Block block = new Block(
+                        new Rectangle(new Point(blockXPos, currentY), // <-- Use the new position
+                                blockWidth, blockHeight), colors[i].getColor());
+                addSprite(block);
+                addCollidable(block);
+            }
+        }
+    }
+
+
+
+
+    public void run() {
+        Sleeper sleeper = new Sleeper();
+        int framesPerSecond = 60;
+        int millisecondsPerFrame = 1000 / framesPerSecond;
+        while (true) {
+            long startTime = System.currentTimeMillis();
+            DrawSurface d = this.gui.getDrawSurface();
+            this.sprites.drawAllOn(d);
+            this.gui.show(d);
+            this.sprites.notifyAllTimePassed();
+            long usedTime = System.currentTimeMillis() - startTime;
+            long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
+            if (milliSecondLeftToSleep > 0) {
+                sleeper.sleepFor(milliSecondLeftToSleep);
+            }
+        }
+    }
+
 }

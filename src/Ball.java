@@ -63,25 +63,25 @@ public class Ball implements Sprite{
 
     @Override
     //Draw the ball on the given DrawSurface
-    public void drawOn(DrawSurface surface){
-        surface.setColor(this.color);
-        surface.fillCircle(this.getX(),this.getY(),this.r);
+    public void drawOn(DrawSurface d){
+        d.setColor(this.color);
+        d.fillCircle(this.getX(),this.getY(),this.r);
     }
 
     @Override
     public void timePassed() {
-        moveOneStep(400); // temporary until GameLevel provides the frame
+        moveOneStep(800, 600); // temporary until GameLevel provides the frame
     }
 
     //Assuming the screen is a square(screenSize*screenSize)
 
-    public void moveOneStep(int screenSize) {
+    public void moveOneStep(int width, int height) {
         //Calculate next position
         double nextX = this.center.getX() + this.velocity.getDx();
         double nextY = this.center.getY() + this.velocity.getDy();
         //Check sides
-        if (nextX + this.r > screenSize) {             //Right wall
-            this.center.setX(screenSize - this.r);     //Right wall fix
+        if (nextX + this.r > width) {             //Right wall
+            this.center.setX(width - this.r);     //Right wall fix
             this.velocity.setDx(-this.velocity.getDx());
         } else if (nextX - this.r < 0) {               //Left wall
             this.center.setX(this.r);                  //Left wall fix
@@ -90,8 +90,8 @@ public class Ball implements Sprite{
             this.center.setX(nextX);                   //No change
         }
         //Check top/bottom
-        if (nextY + this.r > screenSize) {             //Bottom wall
-            this.center.setY(screenSize - this.r);     //Bottom wall fix
+        if (nextY + this.r > height) {             //Bottom wall
+            this.center.setY(height - this.r);     //Bottom wall fix
             this.velocity.setDy(-this.velocity.getDy());
         } else if (nextY - this.r < 0) {               //Top wall
             this.center.setY(this.r);                  //Top wall fix

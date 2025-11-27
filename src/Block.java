@@ -1,12 +1,15 @@
 import biuoop.DrawSurface;
 
+import java.awt.*;
 import java.util.List;
 
 public class Block implements Collidable, Sprite{
     private Rectangle rectangle;
+    private Color color;
 
-    public Block(Rectangle rectangle){
+    public Block(Rectangle rectangle, Color color){
         this.rectangle = rectangle;
+        this.color = color;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class Block implements Collidable, Sprite{
 
     @Override
     public void drawOn(DrawSurface d) {
+        d.setColor(this.color);
         d.fillRectangle((int)this.rectangle.getUpperLeft().getX(),(int)this.rectangle.getUpperLeft().getY(),
                         (int)this.rectangle.getWidth(), (int)this.rectangle.getHeight());
     }

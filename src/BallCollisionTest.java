@@ -31,7 +31,7 @@ public class BallCollisionTest {
             for (int col = 0; col < cols; col++) {
                 double x = startX + col * (blockWidth + spacing);
                 double y = startY + row * (blockHeight + spacing);
-                Block block = new Block(new Rectangle(new Point(x, y), blockWidth, blockHeight));
+                Block block = new Block(new Rectangle(new Point(x, y), blockWidth, blockHeight), Colors.random());
                 collidables.add(block);
             }
         }
@@ -68,7 +68,7 @@ public class BallCollisionTest {
             ball.drawOn(d);
 
             // Move ball
-            ball.moveOneStep(screenSize);
+            ball.moveOneStep(screenSize, screenSize);
 
             // Show on GUI
             gui.show(d);

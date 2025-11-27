@@ -25,7 +25,7 @@ public class MultipleBouncingBallsAnimation {
         while (true) {
             DrawSurface d = gui.getDrawSurface();
             for (Ball ball : balls) {
-                ball.moveOneStep(200);
+                ball.moveOneStep(200, 200);
                 ball.drawOn(d);
             }
             gui.show(d);
