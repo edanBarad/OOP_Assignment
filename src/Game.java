@@ -38,9 +38,9 @@ public class Game {
         Ball ball = new Ball(new Point(400, 300), 5, Colors.RED.getColor());
         ball.setVelocity(new Velocity(2, 3));
         ball.setGameEnvironment(this.environment);
-        this.addSprite(ball);
+        ball.addToGame(this);
 
-        // NOTE: Use Colors.values() instead of Colors.getColors() if the latter causes compilation error
+        //Set array of colors from my enum class
         Colors[] colors = Colors.values();
 
         int startX = 250; // Starting X position for the first row
@@ -68,14 +68,13 @@ public class Game {
                 Block block = new Block(
                         new Rectangle(new Point(blockXPos, currentY), // <-- Use the new position
                                 blockWidth, blockHeight), colors[i].getColor());
-                addSprite(block);
-                addCollidable(block);
+                block.addToGame(this);
             }
         }
+
+        Paddle paddle = new Paddle(this.gui.getKeyboardSensor(), new Rectangle(new Point(0, 475), blockWidth, blockHeight), Colors.ORANGE, 3);
+        paddle.addToGame(this);
     }
-
-
-
 
     public void run() {
         Sleeper sleeper = new Sleeper();

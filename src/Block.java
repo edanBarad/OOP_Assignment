@@ -52,4 +52,9 @@ public class Block implements Collidable, Sprite{
     public void timePassed() {
 
     }
+
+    public void addToGame(Game g) {
+        g.addSprite(this);
+        g.addCollidable(this);
+    }
 }

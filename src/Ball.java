@@ -73,7 +73,9 @@ public class Ball implements Sprite{
         moveOneStep(800, 600); // temporary until GameLevel provides the frame
     }
 
-    //Assuming the screen is a square(screenSize*screenSize)
+    public void addToGame(Game g) {
+        g.addSprite(this);
+    }
 
     public void moveOneStep(int width, int height) {
         //Calculate next position
@@ -113,8 +115,6 @@ public class Ball implements Sprite{
         }
     }
 
-
-
     public void startBallInFrame(Line diagonal){
         //Check sides
         if (this.getX() + this.getSize() > diagonal.end().getX()) {             //Right wall
@@ -131,7 +131,10 @@ public class Ball implements Sprite{
         }
     }
 
-    //Assuming the screen is a square
+
+
+
+    //Assuming the screen is a square(Assignment 1)
     public void moveOneStepInFrame(Line diagonal) {
         //Calculate next position
         double nextX = this.center.getX() + this.velocity.getDx();
@@ -159,5 +162,4 @@ public class Ball implements Sprite{
             this.center.setY(nextY);
         }
     }
-
 }
