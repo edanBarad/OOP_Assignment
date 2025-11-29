@@ -15,11 +15,11 @@ public class Paddle implements Sprite, Collidable {
     }
 
     public void moveLeft(){
-        int nextX = (this.rectangle.getUpperLeft().getX() - speed > 0)? (int) (this.rectangle.getUpperLeft().getX() - speed) : 0;
+        int nextX = (this.rectangle.getUpperLeft().getX() - speed > 20)? (int) (this.rectangle.getUpperLeft().getX() - speed) : 20;
         this.rectangle.getUpperLeft().setX(nextX);
     }
     public void moveRight(){
-        int nextX = (this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth() + speed < 800)? (int) (this.rectangle.getUpperLeft().getX() + speed) : (int) (800 - this.rectangle.getWidth());
+        int nextX = (this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth() + speed < 780)? (int) (this.rectangle.getUpperLeft().getX() + speed) : (int) (780 - this.rectangle.getWidth());
         this.rectangle.getUpperLeft().setX(nextX);
     }
 
@@ -42,7 +42,31 @@ public class Paddle implements Sprite, Collidable {
         return this.rectangle;
     }
     public Velocity hit(Point collisionPoint, Velocity currentVelocity){
-        return null;
+        // Calculate current speed to preserve it
+        double speed = Math.sqrt(currentVelocity.getDx() * currentVelocity.getDx() +
+                currentVelocity.getDy() * currentVelocity.getDy());
+        // Calculate region width and determine which region was hit
+        double regionWidth = this.rectangle.getWidth() / 5;
+        double leftX = this.rectangle.getUpperLeft().getX();
+        double hitX = collisionPoint.getX();
+        int region = (int)((hitX - leftX) / regionWidth) + 1;
+        if (region < 1) region = 1;
+        if (region > 5) region = 5;
+        //Return velocity based on region
+        switch(region){
+            case 1:
+                return Velocity.fromAngleAndSpeed(300, speed);
+            case 2:
+                return Velocity.fromAngleAndSpeed(330, speed);
+            case 3:
+                return new Velocity(currentVelocity.getDx(), -currentVelocity.getDy());
+            case 4:
+                return Velocity.fromAngleAndSpeed(30, speed);
+            case 5:
+                return Velocity.fromAngleAndSpeed(60, speed);
+            default:
+                return new Velocity(currentVelocity.getDx(), -currentVelocity.getDy());
+        }
     }
 
     // Add this paddle to the game.
