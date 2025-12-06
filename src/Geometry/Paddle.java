@@ -46,7 +46,9 @@ public class Paddle implements Sprite, Collidable {
     public Rectangle getCollisionRectangle(){
         return this.rectangle;
     }
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity){
+
+
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity){
         // Calculate current speed to preserve it
         double speed = Math.sqrt(currentVelocity.getDx() * currentVelocity.getDx() +
                 currentVelocity.getDy() * currentVelocity.getDy());

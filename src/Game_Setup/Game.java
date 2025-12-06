@@ -1,5 +1,6 @@
 package Game_Setup;  // ← If Game is in Game_Setup package
 
+import Ass3_Test_Runs.PrintingHitListener;
 import Geometry.*;
 import Geometry.Point;
 import Geometry.Rectangle;
@@ -19,6 +20,7 @@ public class Game {
     private GUI gui;
     private SpriteCollection sprites;
     private GameEnvironment environment;
+    private Counter blockCounter = new Counter();
 
     private Game() {
         this.gui = new GUI("Arkanoid", 800, 600);
@@ -38,11 +40,22 @@ public class Game {
         this.environment.addCollidable(c);
     }
 
+    public void removeCollidable(Collidable c){
+        this.environment.removeCollidable(c);
+    }
+
     public void addSprite(Sprite s) {
         this.sprites.addSprite(s);
     }
 
+    public void removeSprite(Sprite s){
+        this.sprites.removeSprite(s);
+    }
+
     public void initialize() {
+        PrintingHitListener printingHitListener = new PrintingHitListener();
+        BlockRemover blockRemover = new BlockRemover(this, this.blockCounter);
+
         Ball redBall = new Ball(new Geometry.Point(400, 300), 5, Colors.RED.getColor());
         redBall.setVelocity(new Velocity(2, 3));
         redBall.setGameEnvironment(this.environment);
@@ -51,8 +64,10 @@ public class Game {
         blueBall.setVelocity(new Velocity(2, 3));
         blueBall.setGameEnvironment(this.environment);
         blueBall.addToGame(this);
+
         //Set array of colors from my enum class
         Colors[] colors = Colors.values();
+
         // Create border blocks
         Block topBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 800, 20), Color.GRAY);
         topBorder.addToGame(this);
@@ -62,6 +77,7 @@ public class Game {
         rightBorder.addToGame(this);
         Block bottomBorder = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
         bottomBorder.addToGame(this);
+
         // Create colored blocks
         int startX = 250;
         int startY = 100;
@@ -79,6 +95,9 @@ public class Game {
                         new Rectangle(new Geometry.Point(blockXPos, currentY),
                                 blockWidth, blockHeight), colors[i].getColor());
                 block.addToGame(this);
+                this.blockCounter.increase(1);
+                block.addHitListener(printingHitListener);
+                block.addHitListener(blockRemover);
             }
         }
         // Create paddle
@@ -86,9 +105,10 @@ public class Game {
                 new Rectangle(new Geometry.Point(350, 560), 100, 20),
                 Colors.ORANGE, 5);
         paddle.addToGame(this);
+
     }
 
-        public void run () {
+    public void run () {
             Sleeper sleeper = new Sleeper();
             int framesPerSecond = 60;
             int millisecondsPerFrame = 1000 / framesPerSecond;

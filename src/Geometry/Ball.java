@@ -114,7 +114,7 @@ public class Ball implements Sprite {
         );
         CollisionInfo info = this.gameEnvironment.getClosestCollision(path);
         if (info != null) {  //Collision found
-            this.velocity = info.collisionObject().hit(info.collisionPoint(), this.velocity);
+            this.velocity = info.collisionObject().hit(this, info.collisionPoint(), this.velocity);
         }
     }
 
@@ -133,9 +133,6 @@ public class Ball implements Sprite {
             this.setY(((int)diagonal.start().getY() + this.r));            //Top wall fix
         }
     }
-
-
-
 
     //Assuming the screen is a square(Assignment 1)
     public void moveOneStepInFrame(Line diagonal) {
