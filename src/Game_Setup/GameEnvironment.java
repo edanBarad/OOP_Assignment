@@ -1,3 +1,10 @@
+package Game_Setup;
+
+import Geometry.CollisionInfo;
+import Geometry.Line;
+import Geometry.Point;
+import Interfaces.Collidable;
+
 import java.util.ArrayList;
 import java.util.List;
 

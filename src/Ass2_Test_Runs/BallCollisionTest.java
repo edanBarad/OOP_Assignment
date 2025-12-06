@@ -1,4 +1,8 @@
+package Ass2_Test_Runs;
 
+import Game_Setup.GameEnvironment;
+import Geometry.*;
+import Interfaces.Collidable;
 import biuoop.GUI;
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
@@ -36,12 +40,12 @@ public class BallCollisionTest {
             }
         }
 
-        // Create GameEnvironment
+        // Create Game_Setup.GameEnvironment
         GameEnvironment gameEnvironment = new GameEnvironment(collidables);
 
-        // Create smaller Ball
+        // Create smaller Geometry.Ball
         Ball ball = new Ball(new Point(screenSize / 2.0, screenSize - 50), 6, Color.MAGENTA, gameEnvironment);
-        ball.setVelocity(4, -4); // Ball starts moving upward
+        ball.setVelocity(4, -4); // Geometry.Ball starts moving upward
 
         // Animation loop
         while (true) {

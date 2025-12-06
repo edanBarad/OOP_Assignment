@@ -1,9 +1,13 @@
+package Geometry;
+
+import Game_Setup.Game;
+import Interfaces.Collidable;
+import Interfaces.Sprite;
 import biuoop.DrawSurface;
 
 import java.awt.*;
-import java.util.List;
 
-public class Block implements Collidable, Sprite{
+public class Block implements Collidable, Sprite {
     private Rectangle rectangle;
     private Color color;
 

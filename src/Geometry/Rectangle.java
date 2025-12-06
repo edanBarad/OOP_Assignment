@@ -1,3 +1,5 @@
+package Geometry;
+
 public class Rectangle {
     private Point upperLeft;
     private double width, height;

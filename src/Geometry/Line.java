@@ -1,3 +1,5 @@
+package Geometry;
+
 public class Line {
     private Point start = new Point(0, 0);
     private Point end = new Point(0, 0);;
@@ -17,7 +19,7 @@ public class Line {
     private void setSlope(){
         if (this.start.equals(this.end)) this.slope = Double.NaN;
         else if (this.start.getX() == this.end.getX()){
-            this.slope = Double.POSITIVE_INFINITY;      //Line is vertical
+            this.slope = Double.POSITIVE_INFINITY;      //Geometry.Line is vertical
         }else if (this.start.getY() == this.end.getY()){
             this.slope = 0.0;
         }else {

@@ -1,3 +1,8 @@
+package Geometry;
+
+import Game_Setup.Game;
+import Interfaces.Collidable;
+import Interfaces.Sprite;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 
@@ -23,7 +28,7 @@ public class Paddle implements Sprite, Collidable {
         this.rectangle.getUpperLeft().setX(nextX);
     }
 
-    // Sprite
+    // Interfaces.Sprite
     public void timePassed(){
         if (this.keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
             this.moveLeft();
@@ -37,7 +42,7 @@ public class Paddle implements Sprite, Collidable {
         d.fillRectangle((int)this.rectangle.getUpperLeft().getX(), (int)this.rectangle.getUpperLeft().getY(), (int)this.rectangle.getWidth(), (int)this.rectangle.getHeight());
     }
 
-    // Collidable
+    // Interfaces.Collidable
     public Rectangle getCollisionRectangle(){
         return this.rectangle;
     }

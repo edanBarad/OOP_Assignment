@@ -1,3 +1,7 @@
+package Geometry;
+
+import Interfaces.Collidable;
+
 public class CollisionInfo {
     private Point collisionPoint;
     private Collidable collisionObject;

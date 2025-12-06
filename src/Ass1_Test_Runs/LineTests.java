@@ -1,3 +1,8 @@
+package Ass1_Test_Runs;
+
+import Geometry.Line;
+import Geometry.Point;
+import Geometry.Rectangle;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -5,7 +10,7 @@ public class LineTests {
 
     // Helper method to create a rectangle for tests
     private Rectangle createTestRectangle() {
-        // Rectangle from (100,100) to (300,200)
+        // Geometry.Rectangle from (100,100) to (300,200)
         Point upperLeft = new Point(100, 100);
         double width = 200;
         double height = 100;
@@ -31,82 +36,82 @@ public class LineTests {
 
     @Test
     void test_01_LineDoesNotIntersectRectangle() {
-        System.out.println("--- Running Test 01: Line Does Not Intersect Rectangle ---");
+        System.out.println("--- Running Test 01: Geometry.Line Does Not Intersect Geometry.Rectangle ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line completely outside, not touching
+        // Geometry.Line completely outside, not touching
         Line line = new Line(0, 0, 50, 50); // From (0,0) to (50,50)
         Point intersection = line.closestIntersectionToStartOfLine(rect);
         assertNull(intersection, "Should return null if line does not intersect.");
-        System.out.println("  Sub-test 01a Passed: Line outside, no intersection.");
+        System.out.println("  Sub-test 01a Passed: Geometry.Line outside, no intersection.");
 
-        // Line completely outside, far away
+        // Geometry.Line completely outside, far away
         line = new Line(400, 150, 450, 150); // From (400,150) to (450,150)
         intersection = line.closestIntersectionToStartOfLine(rect);
         assertNull(intersection, "Should return null if line does not intersect.");
-        System.out.println("  Sub-test 01b Passed: Line outside, far away.");
+        System.out.println("  Sub-test 01b Passed: Geometry.Line outside, far away.");
 
-        // Line completely inside (if start is inside, it should also be null as it won't hit a wall)
+        // Geometry.Line completely inside (if start is inside, it should also be null as it won't hit a wall)
         line = new Line(150, 150, 175, 175);
         intersection = line.closestIntersectionToStartOfLine(rect);
         assertNull(intersection, "Should return null if line is fully inside (no intersection with boundary).");
-        System.out.println("  Sub-test 01c Passed: Line fully inside.");
+        System.out.println("  Sub-test 01c Passed: Geometry.Line fully inside.");
         System.out.println("--- Test 01 Passed ---");
     }
 
     @Test
     void test_02_LineStartsInsideExitsOneWall() {
-        System.out.println("--- Running Test 02: Line Starts Inside, Exits One Wall ---");
+        System.out.println("--- Running Test 02: Geometry.Line Starts Inside, Exits One Wall ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line starts inside, exits through the Right wall
+        // Geometry.Line starts inside, exits through the Right wall
         Line line = new Line(150, 150, 350, 150); // From (150,150) to (350,150)
         Point expected = new Point(300, 150); // Should hit Right wall at (300,150)
         Point actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line starts inside, exits Right wall.");
+        assertPointsEquals(expected, actual, "Geometry.Line starts inside, exits Right wall.");
         System.out.println("  Sub-test 02a Passed: Exits Right wall.");
 
-        // Line starts inside, exits through the Bottom wall
+        // Geometry.Line starts inside, exits through the Bottom wall
         line = new Line(150, 150, 150, 250); // From (150,150) to (150,250)
         expected = new Point(150, 200); // Should hit Bottom wall at (150,200)
         actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line starts inside, exits Bottom wall.");
+        assertPointsEquals(expected, actual, "Geometry.Line starts inside, exits Bottom wall.");
         System.out.println("  Sub-test 02b Passed: Exits Bottom wall.");
         System.out.println("--- Test 02 Passed ---");
     }
 
     @Test
     void test_03_LineIntersectsTwoWalls_EntryThenExit() {
-        System.out.println("--- Running Test 03: Line Intersects Two Walls (Entry/Exit) ---");
+        System.out.println("--- Running Test 03: Geometry.Line Intersects Two Walls (Entry/Exit) ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line enters Top, exits Right
-        // Line: y = x - 200, from (250,50) to (350,150)
+        // Geometry.Line enters Top, exits Right
+        // Geometry.Line: y = x - 200, from (250,50) to (350,150)
         // Top wall at y=100: x = 300, so intersection at (300,100)
         Line line = new Line(250, 50, 350, 150);
         Point expected = new Point(300, 100); // CORRECTED: Should hit Top wall at (300,100)
         Point actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line enters Top, exits Right.");
+        assertPointsEquals(expected, actual, "Geometry.Line enters Top, exits Right.");
         System.out.println("  Sub-test 03a Passed: Enters Top, exits Right.");
 
-        // Line enters Left, exits Bottom
-        // Line: slope = (250-150)/(150-50) = 100/100 = 1
+        // Geometry.Line enters Left, exits Bottom
+        // Geometry.Line: slope = (250-150)/(150-50) = 100/100 = 1
         // Equation: y - 150 = 1(x - 50) => y = x + 100
         // Left wall at x=100: y = 200, so intersection at (100,200)
         line = new Line(50, 150, 150, 250);
         expected = new Point(100, 200); // CORRECTED: Should hit Left wall at (100,200)
         actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line enters Left, exits Bottom.");
+        assertPointsEquals(expected, actual, "Geometry.Line enters Left, exits Bottom.");
         System.out.println("  Sub-test 03b Passed: Enters Left, exits Bottom.");
         System.out.println("--- Test 03 Passed ---");
     }
 
     @Test
     void test_04_LineIntersectsTwoWalls_HitsCornerPrecisely() {
-        System.out.println("--- Running Test 04: Line Intersects Two Walls (Hits Corner) ---");
+        System.out.println("--- Running Test 04: Geometry.Line Intersects Two Walls (Hits Corner) ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line that passes through bottom-left corner (100, 200)
+        // Geometry.Line that passes through bottom-left corner (100, 200)
         // We need a line from outside that goes through (100, 200)
         // Let's use a line from (50, 150) to (150, 250)
         // Slope: (250-150)/(150-50) = 100/100 = 1
@@ -115,18 +120,18 @@ public class LineTests {
         Line line = new Line(50, 150, 150, 250);
         Point expected = new Point(100, 200); // CORRECTED: This line DOES hit corner (100,200)
         Point actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line hits bottom-left corner.");
+        assertPointsEquals(expected, actual, "Geometry.Line hits bottom-left corner.");
         System.out.println("  Sub-test 04a Passed: Hits bottom-left corner.");
 
-        // Additional test: Line hitting top-right corner (300, 100)
-        // Line from (200, 0) to (400, 200)
+        // Additional test: Geometry.Line hitting top-right corner (300, 100)
+        // Geometry.Line from (200, 0) to (400, 200)
         // Slope: (200-0)/(400-200) = 200/200 = 1
         // Equation: y - 0 = 1(x - 200) => y = x - 200
         // At x=300: y = 100 ✓ (top-right corner)
         line = new Line(200, 0, 400, 200);
         expected = new Point(300, 100);
         actual = line.closestIntersectionToStartOfLine(rect);
-        assertPointsEquals(expected, actual, "Line hits top-right corner.");
+        assertPointsEquals(expected, actual, "Geometry.Line hits top-right corner.");
         System.out.println("  Sub-test 04b Passed: Hits top-right corner.");
         System.out.println("--- Test 04 Passed ---");
     }
@@ -136,7 +141,7 @@ public class LineTests {
         System.out.println("--- Running Test 05: Closest Intersection Is Found ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line from (25, 250) to (375, 75)
+        // Geometry.Line from (25, 250) to (375, 75)
         // Slope: (75-250)/(375-25) = -175/350 = -0.5
         // Equation: y - 250 = -0.5(x - 25) => y = -0.5x + 262.5
 
@@ -170,7 +175,7 @@ public class LineTests {
         System.out.println("--- Running Test 06: Single Intersection Correctly Returned ---");
         Rectangle rect = createTestRectangle(); // (100,100)-(300,200)
 
-        // Line starts inside, exits Bottom
+        // Geometry.Line starts inside, exits Bottom
         Line line = new Line(150, 150, 150, 250);
         Point expected = new Point(150, 200); // Bottom wall
         Point actual = line.closestIntersectionToStartOfLine(rect);

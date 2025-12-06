@@ -1,3 +1,7 @@
+package Ass1_Test_Runs;
+
+import Geometry.Line;
+import Geometry.Point;
 import biuoop.GUI;
 import biuoop.DrawSurface;
 

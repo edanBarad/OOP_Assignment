@@ -1,3 +1,7 @@
+package Ass1_Test_Runs;
+
+import Geometry.Ball;
+import Geometry.Point;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
@@ -5,7 +9,7 @@ import biuoop.Sleeper;
 public class BouncingBallAnimation {
 
     static private void drawAnimation(Point start, double dx, double dy) {
-        GUI gui = new GUI("Bouncing Ball Animation",200,200);
+        GUI gui = new GUI("Bouncing Geometry.Ball Animation",200,200);
         Sleeper sleeper = new Sleeper();
         Ball ball = new Ball(new Point(start.getX(), start.getY()), 30, java.awt.Color.BLACK);
         if (ball.getX() - ball.getSize() < 0){

@@ -1,7 +1,10 @@
+package Geometry;
+import Game_Setup.Game;
+import Game_Setup.GameEnvironment;
+import Interfaces.Sprite;
 import biuoop.DrawSurface;
-import biuoop.GUI;
 
-public class Ball implements Sprite{
+public class Ball implements Sprite {
     private Point center;
     private int r;
     private java.awt.Color color;

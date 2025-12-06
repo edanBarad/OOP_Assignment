@@ -1,3 +1,7 @@
+package Ass1_Test_Runs;
+
+import Geometry.*;
+import Geometry.Point;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
@@ -53,7 +57,7 @@ public class MultipleFramesBouncingBallsAnimation {
         }
 
         Random rnd = new Random();
-        Ball[] balls = new  Ball[args.length];
+        Ball[] balls = new Ball[args.length];
         for (int i = 0; i < balls.length; i++){
             int size = Integer.parseInt(args[i]);
             Point point = new Point(rnd.nextInt(200 - 2 * size) + size, rnd.nextInt(200 - 2 * size) + size);
