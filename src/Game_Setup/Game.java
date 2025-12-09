@@ -1,4 +1,4 @@
-package Game_Setup;  // ← If Game is in Game_Setup package
+package Game_Setup;
 
 import Ass3_Test_Runs.PrintingHitListener;
 import Geometry.*;

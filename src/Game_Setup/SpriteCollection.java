@@ -26,7 +26,9 @@ public class SpriteCollection {
 
     // call timePassed() on all sprites.
     public void notifyAllTimePassed(){
-        for (Sprite sprite: sprites){
+        //We'll make a copy because the list is being modified in-game
+        List<Sprite> spritesTemp = new ArrayList<>(this.sprites);
+        for (Sprite sprite: spritesTemp){
             sprite.timePassed();
         }
     }
