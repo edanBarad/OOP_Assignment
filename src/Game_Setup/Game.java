@@ -108,11 +108,12 @@ public class Game {
 
     }
 
+    //Game runs as long as there are blocks left
     public void run () {
             Sleeper sleeper = new Sleeper();
             int framesPerSecond = 60;
             int millisecondsPerFrame = 1000 / framesPerSecond;
-            while (true) {
+            while (this.blockCounter.getValue() > 0) {
                 long startTime = System.currentTimeMillis();
                 DrawSurface d = this.gui.getDrawSurface();
                 this.sprites.drawAllOn(d);
@@ -124,6 +125,8 @@ public class Game {
                     sleeper.sleepFor(milliSecondLeftToSleep);
                 }
             }
+            this.gui.close();
+            return;
         }
 
     }
