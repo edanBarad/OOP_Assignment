@@ -20,7 +20,8 @@ public class Game {
     private GUI gui;
     private SpriteCollection sprites;
     private GameEnvironment environment;
-    private Counter blockCounter = new Counter();
+    private Counter ballCounter = new Counter(), blockCounter = new Counter();
+
 
     private Game() {
         this.gui = new GUI("Arkanoid", 800, 600);
@@ -55,15 +56,23 @@ public class Game {
     public void initialize() {
         PrintingHitListener printingHitListener = new PrintingHitListener();
         BlockRemover blockRemover = new BlockRemover(this, this.blockCounter);
+        BallRemover ballRemover = new BallRemover(this, this.ballCounter);
 
         Ball redBall = new Ball(new Geometry.Point(400, 300), 5, Colors.RED.getColor());
         redBall.setVelocity(new Velocity(2, 3));
         redBall.setGameEnvironment(this.environment);
         redBall.addToGame(this);
+        this.ballCounter.increase(1);
         Ball blueBall = new Ball(new Geometry.Point(300, 400), 5, Colors.BLUE.getColor());
         blueBall.setVelocity(new Velocity(2, 3));
         blueBall.setGameEnvironment(this.environment);
         blueBall.addToGame(this);
+        this.ballCounter.increase(1);
+        Ball greenBall = new Ball(new Geometry.Point(350, 400), 5, Colors.GREEN.getColor());
+        greenBall.setVelocity(new Velocity(2, 3));
+        greenBall.setGameEnvironment(this.environment);
+        greenBall.addToGame(this);
+        this.ballCounter.increase(1);
 
         //Set array of colors from my enum class
         Colors[] colors = Colors.values();
@@ -77,6 +86,7 @@ public class Game {
         rightBorder.addToGame(this);
         Block bottomBorder = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
         bottomBorder.addToGame(this);
+        bottomBorder.addHitListener(ballRemover);
 
         // Create colored blocks
         int startX = 250;
@@ -108,12 +118,12 @@ public class Game {
 
     }
 
-    //Game runs as long as there are blocks left
+    //Game runs as long as there are blocks and balls left
     public void run () {
             Sleeper sleeper = new Sleeper();
             int framesPerSecond = 60;
             int millisecondsPerFrame = 1000 / framesPerSecond;
-            while (this.blockCounter.getValue() > 0) {
+            while (this.blockCounter.getValue() > 0 && this.ballCounter.getValue() > 0) {
                 long startTime = System.currentTimeMillis();
                 DrawSurface d = this.gui.getDrawSurface();
                 this.sprites.drawAllOn(d);

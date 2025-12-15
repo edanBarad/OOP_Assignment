@@ -11,6 +11,7 @@ public class Ball implements Sprite {
     private Velocity velocity;
     private GameEnvironment gameEnvironment;
 
+
     //Constructor
     public Ball(Point center, int r, java.awt.Color color){
         this.center = center;
@@ -80,6 +81,10 @@ public class Ball implements Sprite {
         g.addSprite(this);
     }
 
+    public void removeFromGame(Game game){
+        game.removeSprite(this);
+    }
+
     public void moveOneStep(int width, int height) {
         //Calculate next position
         double nextX = this.center.getX() + this.velocity.getDx();
@@ -98,6 +103,7 @@ public class Ball implements Sprite {
         if (nextY + this.r > height) {             //Bottom wall
             this.center.setY(height - this.r);     //Bottom wall fix
             this.velocity.setDy(-this.velocity.getDy());
+            //Remove from game?
         } else if (nextY - this.r < 0) {               //Top wall
             this.center.setY(this.r);                  //Top wall fix
             this.velocity.setDy(-this.velocity.getDy());
