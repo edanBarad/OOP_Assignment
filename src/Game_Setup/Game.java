@@ -58,14 +58,16 @@ public class Game {
         BlockRemover blockRemover = new BlockRemover(this, this.blockCounter);
         BallRemover ballRemover = new BallRemover(this, this.ballCounter);
         ScoreTrackingListener scoreTrackingListener = new ScoreTrackingListener(this.score);
+        ScoreIndicator scoreIndicator = new ScoreIndicator(this.score);
+        this.addSprite(scoreIndicator);
 
         Ball redBall = new Ball(new Geometry.Point(400, 300), 5, Colors.RED.getColor());
-        redBall.setVelocity(new Velocity(2, 3));
+        redBall.setVelocity(new Velocity(2, -3));
         redBall.setGameEnvironment(this.environment);
         redBall.addToGame(this);
         this.ballCounter.increase(1);
         Ball blueBall = new Ball(new Geometry.Point(300, 400), 5, Colors.BLUE.getColor());
-        blueBall.setVelocity(new Velocity(2, 3));
+        blueBall.setVelocity(new Velocity(2, -3));
         blueBall.setGameEnvironment(this.environment);
         blueBall.addToGame(this);
         this.ballCounter.increase(1);
@@ -79,13 +81,13 @@ public class Game {
         Colors[] colors = Colors.values();
 
         // Create border blocks
-        Block topBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 800, 20), Color.GRAY);
+        Block topBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 800, 20), Colors.GRAY.getColor());
         topBorder.addToGame(this);
-        Block leftBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 20, 560), Color.GRAY);  // height: 560 instead of 580
+        Block leftBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 20, 560), Colors.GRAY.getColor());  // height: 560 instead of 580
         leftBorder.addToGame(this);
-        Block rightBorder = new Block(new Rectangle(new Geometry.Point(780, 20), 20, 560), Color.GRAY);  // height: 560 instead of 580
+        Block rightBorder = new Block(new Rectangle(new Geometry.Point(780, 20), 20, 560), Colors.GRAY.getColor());  // height: 560 instead of 580
         rightBorder.addToGame(this);
-        Block bottomBorder = new Block(new Rectangle(new Point(0, 580), 800, 20), Color.GRAY);
+        Block bottomBorder = new Block(new Rectangle(new Point(0, 580), 800, 20), Colors.GRAY.getColor());
         bottomBorder.addToGame(this);
         bottomBorder.addHitListener(ballRemover);
 
@@ -96,12 +98,12 @@ public class Game {
         int blockHeight = 20;
         int numRows = 6;
         for (int i = 0; i < numRows; i++) {
-            int currentY = startY + (i * blockHeight);
-            int currentX = startX + (i * (blockWidth / 2));
+            int currentY = startY + (i * (blockHeight+1));
+            int currentX = startX + (i * ((blockWidth+1) / 2));
             int numBlocksInRow = 10 - i;
 
             for (int j = 0; j < numBlocksInRow; j++) {
-                int blockXPos = currentX + j * blockWidth;
+                int blockXPos = currentX + j * (blockWidth+1);
                 Block block = new Block(
                         new Rectangle(new Geometry.Point(blockXPos, currentY),
                                 blockWidth, blockHeight), colors[i].getColor());
@@ -112,6 +114,7 @@ public class Game {
                 block.addHitListener(scoreTrackingListener);
             }
         }
+
         // Create paddle
         Paddle paddle = new Paddle(this.gui.getKeyboardSensor(),
                 new Rectangle(new Geometry.Point(350, 560), 100, 20),
@@ -139,8 +142,12 @@ public class Game {
             }
             if (this.blockCounter.getValue() == 0){
                 this.score.increase(100);
+                System.out.println("YOU WIN!");
+            } else if (this.ballCounter.getValue() == 0) {
+                System.out.println("YOU LOSE!");
             }
-            this.gui.close();
+        System.out.println("Your score is: " + this.score.getValue());
+        this.gui.close();
             return;
         }
 
