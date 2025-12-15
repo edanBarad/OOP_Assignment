@@ -15,6 +15,11 @@ public class BlockRemover implements HitListener {
         this.remainingBlocks = remainingBlocks;
     }
 
+    //Accessors
+    public Counter getRemainingBlocks(){
+        return this.remainingBlocks;
+    }
+
     // Blocks that are hit should be removed
     // from the game. Remember to remove this listener from the block
     // that is being removed from the game.

@@ -20,7 +20,7 @@ public class Game {
     private GUI gui;
     private SpriteCollection sprites;
     private GameEnvironment environment;
-    private Counter ballCounter = new Counter(), blockCounter = new Counter();
+    private Counter ballCounter = new Counter(), blockCounter = new Counter(), score = new Counter();
 
 
     private Game() {
@@ -57,6 +57,7 @@ public class Game {
         PrintingHitListener printingHitListener = new PrintingHitListener();
         BlockRemover blockRemover = new BlockRemover(this, this.blockCounter);
         BallRemover ballRemover = new BallRemover(this, this.ballCounter);
+        ScoreTrackingListener scoreTrackingListener = new ScoreTrackingListener(this.score);
 
         Ball redBall = new Ball(new Geometry.Point(400, 300), 5, Colors.RED.getColor());
         redBall.setVelocity(new Velocity(2, 3));
@@ -108,6 +109,7 @@ public class Game {
                 this.blockCounter.increase(1);
                 block.addHitListener(printingHitListener);
                 block.addHitListener(blockRemover);
+                block.addHitListener(scoreTrackingListener);
             }
         }
         // Create paddle
@@ -134,6 +136,9 @@ public class Game {
                 if (milliSecondLeftToSleep > 0) {
                     sleeper.sleepFor(milliSecondLeftToSleep);
                 }
+            }
+            if (this.blockCounter.getValue() == 0){
+                this.score.increase(100);
             }
             this.gui.close();
             return;
