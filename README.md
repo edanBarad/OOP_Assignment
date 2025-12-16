@@ -1,6 +1,6 @@
 # OOP Assignment - Arkanoid Game
 
-A Java implementation of the classic Arkanoid/Breakout game, demonstrating core OOP principles including inheritance, polymorphism, and design patterns.
+A Java implementation of the classic Arkanoid game, demonstrating core OOP principles including inheritance, polymorphism, and design patterns.
 
 ## 📋 Project Overview
 
