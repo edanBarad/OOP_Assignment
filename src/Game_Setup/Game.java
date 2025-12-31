@@ -133,6 +133,7 @@ public class Game implements Animation {
 
     //Game runs as long as there are blocks and balls left
     public void run() {
+        this.runner.run(new CountdownAnimation(3, 3, this.sprites));
         this.running = true;
         this.runner.run(this); //Run the game
         if (this.blockCounter.getValue() == 0) {
@@ -148,10 +149,10 @@ public class Game implements Animation {
 
     @Override
     public void doOneFrame(DrawSurface d) {
+        this.sprites.drawAllOn(d);
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new PauseScreen(this.keyboard));
         }
-        this.sprites.drawAllOn(d);
         this.sprites.notifyAllTimePassed();
         this.running = this.blockCounter.getValue() > 0 && this.ballCounter.getValue() > 0;
     }
