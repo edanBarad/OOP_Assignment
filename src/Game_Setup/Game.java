@@ -7,7 +7,9 @@ import Geometry.Rectangle;
 import Interfaces.Animation;
 import biuoop.DrawSurface;
 import biuoop.GUI;
+import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
+
 import java.awt.*;
 
 // Import all your classes from their packages:
@@ -22,12 +24,17 @@ public class Game implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private Counter ballCounter = new Counter(), blockCounter = new Counter(), score = new Counter();
+    private AnimationRunner runner;
+    private boolean running;
+    private KeyboardSensor keyboard;
 
 
     private Game() {
         this.gui = new GUI("Arkanoid", 800, 600);
+        this.keyboard = this.gui.getKeyboardSensor();
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
+        this.runner = new AnimationRunner(this.gui);
     }
 
     public static Game getInstance() {
@@ -42,7 +49,7 @@ public class Game implements Animation {
         this.environment.addCollidable(c);
     }
 
-    public void removeCollidable(Collidable c){
+    public void removeCollidable(Collidable c) {
         this.environment.removeCollidable(c);
     }
 
@@ -50,7 +57,7 @@ public class Game implements Animation {
         this.sprites.addSprite(s);
     }
 
-    public void removeSprite(Sprite s){
+    public void removeSprite(Sprite s) {
         this.sprites.removeSprite(s);
     }
 
@@ -99,12 +106,12 @@ public class Game implements Animation {
         int blockHeight = 20;
         int numRows = 6;
         for (int i = 0; i < numRows; i++) {
-            int currentY = startY + (i * (blockHeight+1));
-            int currentX = startX + (i * ((blockWidth+1) / 2));
+            int currentY = startY + (i * (blockHeight + 1));
+            int currentX = startX + (i * ((blockWidth + 1) / 2));
             int numBlocksInRow = 10 - i;
 
             for (int j = 0; j < numBlocksInRow; j++) {
-                int blockXPos = currentX + j * (blockWidth+1);
+                int blockXPos = currentX + j * (blockWidth + 1);
                 Block block = new Block(
                         new Rectangle(new Geometry.Point(blockXPos, currentY),
                                 blockWidth, blockHeight), colors[i].getColor());
@@ -117,7 +124,7 @@ public class Game implements Animation {
         }
 
         // Create paddle
-        Paddle paddle = new Paddle(this.gui.getKeyboardSensor(),
+        Paddle paddle = new Paddle(this.keyboard,
                 new Rectangle(new Geometry.Point(350, 560), 100, 20),
                 Colors.ORANGE, 5);
         paddle.addToGame(this);
@@ -125,40 +132,32 @@ public class Game implements Animation {
     }
 
     //Game runs as long as there are blocks and balls left
-    public void run () {
-            Sleeper sleeper = new Sleeper();
-            int framesPerSecond = 60;
-            int millisecondsPerFrame = 1000 / framesPerSecond;
-            while (this.blockCounter.getValue() > 0 && this.ballCounter.getValue() > 0) {
-                long startTime = System.currentTimeMillis();
-                DrawSurface d = this.gui.getDrawSurface();
-                this.sprites.drawAllOn(d);
-                this.gui.show(d);
-                this.sprites.notifyAllTimePassed();
-                long usedTime = System.currentTimeMillis() - startTime;
-                long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
-                if (milliSecondLeftToSleep > 0) {
-                    sleeper.sleepFor(milliSecondLeftToSleep);
-                }
-            }
-            if (this.blockCounter.getValue() == 0){
-                this.score.increase(100);
-                System.out.println("YOU WIN!");
-            } else if (this.ballCounter.getValue() == 0) {
-                System.out.println("YOU LOSE!");
-            }
+    public void run() {
+        this.running = true;
+        this.runner.run(this); //Run the game
+        if (this.blockCounter.getValue() == 0) {
+            this.score.increase(100);
+            System.out.println("YOU WIN!");
+        } else if (this.ballCounter.getValue() == 0) {
+            System.out.println("YOU LOSE!");
+        }
         System.out.println("Your score is: " + this.score.getValue());
         this.gui.close();
-            return;
-        }
+        return;
+    }
 
     @Override
     public void doOneFrame(DrawSurface d) {
-
+        if (this.keyboard.isPressed("p")) {
+            this.runner.run(new PauseScreen(this.keyboard));
+        }
+        this.sprites.drawAllOn(d);
+        this.sprites.notifyAllTimePassed();
+        this.running = this.blockCounter.getValue() > 0 && this.ballCounter.getValue() > 0;
     }
 
     @Override
     public boolean shouldStop() {
-        return false;
+        return !this.running;
     }
 }

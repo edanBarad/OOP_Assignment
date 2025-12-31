@@ -10,8 +10,8 @@ public class AnimationRunner {
     private int framesPerSecond;
     private Sleeper sleeper;
 
-    public AnimationRunner(){
-        this.gui = new GUI("Arkanoid", 800, 600);
+    public AnimationRunner(GUI gui){
+        this.gui = gui;
         this.framesPerSecond = 60;
         this.sleeper = new Sleeper();
     }
