@@ -4,6 +4,7 @@ import Ass3_Test_Runs.PrintingHitListener;
 import Geometry.*;
 import Geometry.Point;
 import Geometry.Rectangle;
+import Interfaces.Animation;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
@@ -13,7 +14,7 @@ import java.awt.*;
 import Interfaces.Collidable;
 import Interfaces.Sprite;
 
-public class Game {
+public class Game implements Animation {
 
     private static Game instance = null;
 
@@ -151,4 +152,13 @@ public class Game {
             return;
         }
 
+    @Override
+    public void doOneFrame(DrawSurface d) {
+
     }
+
+    @Override
+    public boolean shouldStop() {
+        return false;
+    }
+}
