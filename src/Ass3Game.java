@@ -1,9 +1,9 @@
-import Game_Setup.Game;
+import Game_Setup.GameLevel;
 
 public class Ass3Game {
     public static void main(String[] args) {
-        Game game = Game.getInstance();
-        game.initialize();
-        game.run();
+        GameLevel gameLevel = new GameLevel();
+        gameLevel.initialize();
+        gameLevel.run();
     }
 }

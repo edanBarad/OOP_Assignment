@@ -5,43 +5,34 @@ import Geometry.*;
 import Geometry.Point;
 import Geometry.Rectangle;
 import Interfaces.Animation;
+import Interfaces.LevelInformation;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
-import biuoop.Sleeper;
-
-import java.awt.*;
 
 // Import all your classes from their packages:
 import Interfaces.Collidable;
 import Interfaces.Sprite;
 
-public class Game implements Animation {
+import java.util.List;
 
-    private static Game instance = null;
+public class GameLevel implements Animation {
 
-    private GUI gui;
     private SpriteCollection sprites;
     private GameEnvironment environment;
-    private Counter ballCounter = new Counter(), blockCounter = new Counter(), score = new Counter();
+    private Counter ballCounter = new Counter(), blockCounter = new Counter(), score;
     private AnimationRunner runner;
     private boolean running;
     private KeyboardSensor keyboard;
+    private LevelInformation levelInformation;
 
-
-    private Game() {
-        this.gui = new GUI("Arkanoid", 800, 600);
-        this.keyboard = this.gui.getKeyboardSensor();
+    public GameLevel(LevelInformation levelInformation, KeyboardSensor keyboard, AnimationRunner runner, Counter score) {
+        this.levelInformation = levelInformation;
+        this.keyboard = keyboard;
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
-        this.runner = new AnimationRunner(this.gui);
-    }
-
-    public static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
-        return instance;
+        this.runner = runner;
+        this.score = score; //Score passes along all levels
     }
 
     // Your existing methods:
@@ -62,31 +53,22 @@ public class Game implements Animation {
     }
 
     public void initialize() {
+        //First parameters for each level
         PrintingHitListener printingHitListener = new PrintingHitListener();
         BlockRemover blockRemover = new BlockRemover(this, this.blockCounter);
         BallRemover ballRemover = new BallRemover(this, this.ballCounter);
+        this.addSprite(this.levelInformation.getBackground());
         ScoreTrackingListener scoreTrackingListener = new ScoreTrackingListener(this.score);
-        ScoreIndicator scoreIndicator = new ScoreIndicator(this.score);
+        ScoreIndicator scoreIndicator = new ScoreIndicator(this.score, this.levelInformation.levelName());
         this.addSprite(scoreIndicator);
 
-        Ball redBall = new Ball(new Geometry.Point(400, 300), 5, Colors.RED.getColor());
-        redBall.setVelocity(new Velocity(2, -3));
-        redBall.setGameEnvironment(this.environment);
-        redBall.addToGame(this);
-        this.ballCounter.increase(1);
-        Ball blueBall = new Ball(new Geometry.Point(300, 400), 5, Colors.BLUE.getColor());
-        blueBall.setVelocity(new Velocity(2, -3));
-        blueBall.setGameEnvironment(this.environment);
-        blueBall.addToGame(this);
-        this.ballCounter.increase(1);
-        Ball greenBall = new Ball(new Geometry.Point(350, 400), 5, Colors.GREEN.getColor());
-        greenBall.setVelocity(new Velocity(2, 3));
-        greenBall.setGameEnvironment(this.environment);
-        greenBall.addToGame(this);
-        this.ballCounter.increase(1);
-
-        //Set array of colors from my enum class
-        Colors[] colors = Colors.values();
+        //Add balls
+        for (Velocity velocity: this.levelInformation.initialBallVelocities()){
+            Ball ball = new Ball(new Point(400, 550), 5, Colors.WHITE.getColor(), this.environment);
+            ball.setVelocity(velocity);
+            ball.addToGame(this);
+            this.ballCounter.increase(1);
+        }
 
         // Create border blocks
         Block topBorder = new Block(new Rectangle(new Geometry.Point(0, 20), 800, 20), Colors.GRAY.getColor());
@@ -100,35 +82,19 @@ public class Game implements Animation {
         bottomBorder.addHitListener(ballRemover);
 
         // Create colored blocks
-        int startX = 250;
-        int startY = 100;
-        int blockWidth = 50;
-        int blockHeight = 20;
-        int numRows = 6;
-        for (int i = 0; i < numRows; i++) {
-            int currentY = startY + (i * (blockHeight + 1));
-            int currentX = startX + (i * ((blockWidth + 1) / 2));
-            int numBlocksInRow = 10 - i;
-
-            for (int j = 0; j < numBlocksInRow; j++) {
-                int blockXPos = currentX + j * (blockWidth + 1);
-                Block block = new Block(
-                        new Rectangle(new Geometry.Point(blockXPos, currentY),
-                                blockWidth, blockHeight), colors[i].getColor());
-                block.addToGame(this);
-                this.blockCounter.increase(1);
-                block.addHitListener(printingHitListener);
-                block.addHitListener(blockRemover);
-                block.addHitListener(scoreTrackingListener);
-            }
+        for (Block block: this.levelInformation.blocks()){
+            block.addToGame(this);
+            block.addHitListener(printingHitListener);
+            block.addHitListener(blockRemover);
+            block.addHitListener(scoreTrackingListener);
         }
+        this.blockCounter.increase(this.levelInformation.numberOfBlocksToRemove());
 
-        // Create paddle
+        // Create paddle, and place in the middle of the screen
         Paddle paddle = new Paddle(this.keyboard,
-                new Rectangle(new Geometry.Point(350, 560), 100, 20),
-                Colors.ORANGE, 5);
+                new Rectangle(new Geometry.Point(400-((double) this.levelInformation.paddleWidth() /2), 560), this.levelInformation.paddleWidth(), 20),
+                Colors.ORANGE, this.levelInformation.paddleSpeed());
         paddle.addToGame(this);
-
     }
 
     //Game runs as long as there are blocks and balls left
@@ -143,7 +109,6 @@ public class Game implements Animation {
             System.out.println("YOU LOSE!");
         }
         System.out.println("Your score is: " + this.score.getValue());
-        this.gui.close();
         return;
     }
 
@@ -161,4 +126,5 @@ public class Game implements Animation {
     public boolean shouldStop() {
         return !this.running;
     }
+
 }

@@ -1,6 +1,6 @@
 package Geometry;
 
-import Game_Setup.Game;
+import Game_Setup.GameLevel;
 import Interfaces.Collidable;
 import Interfaces.HitListener;
 import Interfaces.Sprite;
@@ -70,14 +70,14 @@ public class Block implements Collidable, Sprite, HitNotifier {
 
     }
 
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }
 
-    public void removeFromGame(Game game){
-        game.removeSprite(this);
-        game.removeCollidable(this);
+    public void removeFromGame(GameLevel gameLevel){
+        gameLevel.removeSprite(this);
+        gameLevel.removeCollidable(this);
     }
 
     @Override

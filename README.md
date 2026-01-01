@@ -1,10 +1,10 @@
 # OOP Assignment - Arkanoid Game
 
-A Java implementation of the classic Arkanoid game, demonstrating core OOP principles including inheritance, polymorphism, and design patterns.
+A Java implementation of the classic Arkanoid gameLevel, demonstrating core OOP principles including inheritance, polymorphism, and design patterns.
 
 ## 📋 Project Overview
 
-This project is an Arkanoid-style game built from scratch using Object-Oriented Programming concepts. It features collision detection, event-driven architecture with listeners, and a complete game loop with sprite management.
+This project is an Arkanoid-style gameLevel built from scratch using Object-Oriented Programming concepts. It features collision detection, event-driven architecture with listeners, and a complete gameLevel loop with sprite management.
 
 ## 🚀 Getting Started
 
@@ -22,7 +22,7 @@ This project is an Arkanoid-style game built from scratch using Object-Oriented 
 3. Build the project and resolve any dependencies
 
 ### Running the Project
-Run `Main.java` to start the game. Use the arrow keys to control the paddle and break all the blocks!
+Run `Main.java` to start the gameLevel. Use the arrow keys to control the paddle and break all the blocks!
 
 **Controls:**
 - ← → Arrow keys to move the paddle
@@ -34,9 +34,9 @@ Run `Main.java` to start the game. Use the arrow keys to control the paddle and 
 ```
 OOP_Assignment/
 ├── src/
-│   ├── Main.java          # Entry point - run this to start the game
+│   ├── Main.java          # Entry point - run this to start the gameLevel
 │   ├── Game_Setup/        # Game management and core systems
-│   │   ├── Game.java                    # Main game class (Singleton)
+│   │   ├── Game.java                    # Main gameLevel class (Singleton)
 │   │   ├── GameEnvironment.java         # Collision detection system
 │   │   ├── SpriteCollection.java        # Manages all drawable objects
 │   │   ├── Counter.java                 # Score/block/ball counters
@@ -56,7 +56,7 @@ OOP_Assignment/
 │   │   ├── Colors.java                  # Color enumeration
 │   │   └── GeometryTester.java          # Unit tests for geometry classes
 │   └── Interfaces/        # Core interfaces
-│       ├── Sprite.java                  # Drawable game objects
+│       ├── Sprite.java                  # Drawable gameLevel objects
 │       ├── Collidable.java              # Objects that can collide
 │       ├── HitListener.java             # Observer pattern for hits
 │       └── HitNotifier.java             # Notifies listeners of hits
@@ -71,7 +71,7 @@ OOP_Assignment/
 - **Smart paddle mechanics** with 5-region hit zones for ball angle control
 - **Score tracking system** with visual indicator
 - **Win/Lose conditions** based on blocks cleared and balls remaining
-- **Singleton Game class** for centralized game state management
+- **Singleton Game class** for centralized gameLevel state management
 
 ## 🏗️ Design Patterns Used
 

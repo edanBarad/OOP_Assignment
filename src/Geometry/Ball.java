@@ -1,5 +1,5 @@
 package Geometry;
-import Game_Setup.Game;
+import Game_Setup.GameLevel;
 import Game_Setup.GameEnvironment;
 import Interfaces.Sprite;
 import biuoop.DrawSurface;
@@ -77,12 +77,12 @@ public class Ball implements Sprite {
         moveOneStep(800, 600); // temporary until GameLevel provides the frame
     }
 
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
     }
 
-    public void removeFromGame(Game game){
-        game.removeSprite(this);
+    public void removeFromGame(GameLevel gameLevel){
+        gameLevel.removeSprite(this);
     }
 
     public void moveOneStep(int width, int height) {

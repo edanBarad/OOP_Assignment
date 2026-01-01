@@ -5,17 +5,17 @@ import Geometry.Block;
 import Interfaces.HitListener;
 
 public class BallRemover implements HitListener {
-    private Game game;
+    private GameLevel gameLevel;
     private Counter remainingBalls;
 
-    public BallRemover(Game game, Counter remainingBalls) {
-        this.game = game;
+    public BallRemover(GameLevel gameLevel, Counter remainingBalls) {
+        this.gameLevel = gameLevel;
         this.remainingBalls = remainingBalls;
     }
 
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
-        hitter.removeFromGame(this.game);
+        hitter.removeFromGame(this.gameLevel);
         this.remainingBalls.decrease(1);
     }
 }
