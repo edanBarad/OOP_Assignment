@@ -35,7 +35,8 @@ public class GameLevel implements Animation {
         this.score = score; //Score passes along all levels
     }
 
-    // Your existing methods:
+    //Game steup methods
+
     public void addCollidable(Collidable c) {
         this.environment.addCollidable(c);
     }
@@ -101,14 +102,13 @@ public class GameLevel implements Animation {
     public void run() {
         this.runner.run(new CountdownAnimation(2, 3, this.sprites));
         this.running = true;
-        this.runner.run(this); //Run the game
+        this.runner.run(this);                      //Run the game
+        //Check the reason for ending the game
         if (this.blockCounter.getValue() == 0) {
             this.score.increase(100);
-            System.out.println("YOU WIN!");
-        } else if (this.ballCounter.getValue() == 0) {
-            System.out.println("YOU LOSE!");
+            System.out.println("YOU WON THE LEVEL!");
+            System.out.println("Your score is: " + this.score.getValue());
         }
-        System.out.println("Your score is: " + this.score.getValue());
         return;
     }
 
@@ -125,6 +125,15 @@ public class GameLevel implements Animation {
     @Override
     public boolean shouldStop() {
         return !this.running;
+    }
+
+    //Getters
+
+    public int getNumOfBalls(){
+        return this.ballCounter.getValue();
+    }
+    public int getNumOfBlocks(){
+        return this.blockCounter.getValue();
     }
 
 }
