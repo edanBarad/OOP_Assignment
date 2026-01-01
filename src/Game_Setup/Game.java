@@ -133,7 +133,7 @@ public class Game implements Animation {
 
     //Game runs as long as there are blocks and balls left
     public void run() {
-        this.runner.run(new CountdownAnimation(3, 3, this.sprites));
+        this.runner.run(new CountdownAnimation(2, 3, this.sprites));
         this.running = true;
         this.runner.run(this); //Run the game
         if (this.blockCounter.getValue() == 0) {

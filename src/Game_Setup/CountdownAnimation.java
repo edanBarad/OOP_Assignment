@@ -1,5 +1,6 @@
 package Game_Setup;
 
+import Geometry.Colors;
 import Interfaces.Animation;
 import biuoop.DrawSurface;
 import java.awt.Color;
@@ -30,14 +31,14 @@ public class CountdownAnimation implements Animation {
 
         //Draw the number if it's within the countdown range
         if (currentCount > 0) {
-            d.setColor(Color.WHITE);
+            d.setColor(Colors.BLACK.getColor());
             // Drawing in the center of an 800x600 screen
             d.drawText(380, 300, Integer.toString(currentCount), 80);
         }
     }
 
     public boolean shouldStop() {
-        // Stop when the total time has passed 🛑
+        // Stop when the total time has passed
         return System.currentTimeMillis() - this.startTime > (long) (1000 * this.numOfSeconds);
     }
 }
