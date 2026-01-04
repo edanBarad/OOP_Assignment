@@ -24,11 +24,10 @@ public class GameFlow {
             level.run();
 
             if (level.getNumOfBalls() == 0) {
-                System.out.println("YOU LOSE!");
-                System.out.println("Your score is: " + this.score.getValue());
-                break;
+                this.animationRunner.run(new EndScreen(this.score, false, this.keyboardSensor));
+                return;
             }
-
         }
+        this.animationRunner.run(new EndScreen(this.score, true, this.keyboardSensor));
     }
 }
