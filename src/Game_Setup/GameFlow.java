@@ -9,7 +9,7 @@ public class GameFlow {
 
     private KeyboardSensor keyboardSensor;
     private AnimationRunner animationRunner;
-    private final Counter score;
+    private Counter score;
 
     public GameFlow(AnimationRunner animationRunner, KeyboardSensor keyboardSensor) {
         this.animationRunner = animationRunner;
@@ -18,16 +18,17 @@ public class GameFlow {
     }
 
     public void runLevels(List<LevelInformation> levels) {
+        boolean win = true;
         for (LevelInformation levelInfo : levels) {
             GameLevel level = new GameLevel(levelInfo, this.keyboardSensor, this.animationRunner,this.score);
             level.initialize();
             level.run();
 
             if (level.getNumOfBalls() == 0) {
-                this.animationRunner.run(new EndScreen(this.score, false, this.keyboardSensor));
-                return;
+                win = false;
+                break;
             }
         }
-        this.animationRunner.run(new EndScreen(this.score, true, this.keyboardSensor));
+        this.animationRunner.run(new KeyPressStoppableAnimation(this.keyboardSensor, KeyboardSensor.SPACE_KEY, new EndScreen(this.score, win, this.keyboardSensor)));
     }
 }

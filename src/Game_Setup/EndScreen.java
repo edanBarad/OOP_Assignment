@@ -6,7 +6,7 @@ import biuoop.KeyboardSensor;
 
 public class EndScreen implements Animation {
 
-    private boolean win, stop;
+    private boolean win;
     private KeyboardSensor keyboard;
     private Counter score;
 
@@ -14,7 +14,6 @@ public class EndScreen implements Animation {
         this.score = score;
         this.win = win;
         this.keyboard = keyboard;
-        this.stop = false;
     }
 
 
@@ -24,12 +23,10 @@ public class EndScreen implements Animation {
         d.drawText(10, (d.getHeight() / 2)-40, "You " + status + "!", 32);
         d.drawText(10, d.getHeight() / 2, "Score: " + this.score.getValue(), 32);
         d.drawText(10, (d.getHeight() / 2)+40, "Press space to end game", 32);
-
-        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) { this.stop = true; }
     }
 
     @Override
     public boolean shouldStop() {
-        return this.stop;
+        return false;
     }
 }

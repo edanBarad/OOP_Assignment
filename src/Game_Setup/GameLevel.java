@@ -116,7 +116,7 @@ public class GameLevel implements Animation {
     public void doOneFrame(DrawSurface d) {
         this.sprites.drawAllOn(d);
         if (this.keyboard.isPressed("p")) {
-            this.runner.run(new PauseScreen(this.keyboard));
+            this.runner.run(new KeyPressStoppableAnimation(this.keyboard, KeyboardSensor.SPACE_KEY, new PauseScreen(this.keyboard)));
         }
         this.sprites.notifyAllTimePassed();
         this.running = this.blockCounter.getValue() > 0 && this.ballCounter.getValue() > 0;

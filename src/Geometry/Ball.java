@@ -68,6 +68,8 @@ public class Ball implements Sprite {
     @Override
     //Draw the ball on the given DrawSurface
     public void drawOn(DrawSurface d){
+        d.setColor(Colors.BLACK.getColor());
+        d.drawCircle(this.getX(),this.getY(),this.r);
         d.setColor(this.color);
         d.fillCircle(this.getX(),this.getY(),this.r);
     }
